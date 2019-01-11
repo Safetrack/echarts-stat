@@ -1208,7 +1208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param  {string} threshold
 	     * @return {Object}
 	     */
-	    function computeBins(data, threshold) {
+	    function computeBins(data, threshold, minVal, maxVal, binsNumberVal) {
 
 	        if (threshold == null) {
 	            threshold = thresholdMethod.squareRoot;
@@ -1217,9 +1217,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            threshold = thresholdMethod[threshold];
 	        }
 	        var values = dataPreprocess(data);
-	        var maxValue = max(values);
-	        var minValue = min(values);
-	        var binsNumber = threshold(values, minValue, maxValue);
+	        var maxValue = maxVal == null ? max(values) : maxVal;
+	        var minValue = minVal == null ? min(values) : minVal;
+	        var binsNumber = binsNumberVal == null ? threshold(values, minValue, maxValue) : binsNumberVal;
 	        var step = tickStep(minValue, maxValue, binsNumber);
 	        var precision = Math.floor(Math.log(Math.abs(maxValue - minValue) / binsNumber) / Math.LN10);
 	        precision = precision < 0 ? -precision : precision;
