@@ -33,13 +33,14 @@ define(function (require) {
         var minValue = min(values);
         var binsNumber = threshold(values, minValue, maxValue);
         var step = tickStep(minValue, maxValue, binsNumber);
-        var precision = -Math.floor(Math.log(Math.abs(maxValue - minValue) / binsNumber) / Math.LN10);
+        var precision = Math.floor(Math.log(Math.abs(maxValue - minValue) / binsNumber) / Math.LN10);
+        precision = precision < 0 ? -precision : precision;
 
         // return the xAxis coordinate for each bins, except the end point of the value
         var rangeArray = range(
                 // use function toFixed() to avoid data like '0.700000001'
-                +((Math.ceil(minValue / step) * step).toFixed(-precision)),
-                +((Math.floor(maxValue / step) * step).toFixed(-precision)),
+                +((Math.ceil(minValue / step) * step).toFixed(precision)),
+                +((Math.floor(maxValue / step) * step).toFixed(precision)),
                 step,
                 precision
             );
@@ -71,7 +72,7 @@ define(function (require) {
 
         var data = map(bins, function (bin) {
             // use function toFixed() to avoid data like '6.5666638489'
-            return [+((bin.x0 + bin.x1) / 2).toFixed(-precision), bin.sample.length];
+            return [+((bin.x0 + bin.x1) / 2).toFixed(precision), bin.sample.length];
         });
 
         var customData = map(bins, function (bin) {
