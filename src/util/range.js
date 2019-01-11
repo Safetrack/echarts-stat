@@ -32,10 +32,10 @@ define(function (require) {
             precision = +precision;
         }
 
-        var n = Math.ceil(((end - start) / step).toFixed(precision));
+        var n = Math.ceil(((end - start) / step).toFixed(-precision));
         var range = new Array(n + 1);
         for (var i = 0; i < n + 1; i++) {
-            range[i] = +(start + i * step).toFixed(precision);
+            range[i] = +(start + i * step).toFixed(-precision);
         }
         return range;
     };
